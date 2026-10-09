@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List Life Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main id="app" class="app-container" role="main" aria-label="Main dashboard content">
+        <!-- ===== HEADER WITH THEME & NAME SETTINGS ===== -->
+        <div class="dashboard-header">
+            <div class="header-left">
+                <h1 class="dashboard-title">Life Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark mode" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="name-settings" class="btn-icon" aria-label="Edit user name" title="Edit Name">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== GREETING SECTION (Full Width) ===== -->
+        <header class="greeting-section" role="banner">
+            <h2 id="greeting" class="greeting-message">Good Morning</h2>
+            <div class="greeting-details">
+                <p id="current-date" class="current-date" aria-live="polite" aria-atomic="true">Wednesday, October 8, 2026</p>
+                <p id="current-time" class="current-time" aria-live="polite" aria-atomic="true">09:30:45 AM</p>
+            </div>
+        </header>
+
+        <!-- ===== MAIN CONTENT GRID (2-column layout on desktop, 1-column on mobile) ===== -->
+        <div class="dashboard-grid">
+            <!-- ===== POMODORO TIMER SECTION ===== -->
+            <section class="timer-section" aria-labelledby="timer-heading">
+                <h2 id="timer-heading" class="section-title">Pomodoro Timer</h2>
+                
+                <!-- Timer Display with Screen Reader Status -->
+                <div class="timer-display-container">
+                    <div id="timer-display" class="timer-display" aria-label="Timer display" aria-live="polite" aria-atomic="true">
+                        25:00
+                        <span class="sr-only" id="timer-status-sr" aria-live="assertive">Timer stopped, 25 minutes remaining</span>
+                    </div>
+                </div>
+
+                <!-- Timer Control Buttons with descriptive labels -->
+                <div class="timer-controls">
+                    <button id="timer-start" class="btn btn-primary" aria-label="Start Pomodoro timer for focused work">
+                        Start
+                    </button>
+                    <button id="timer-pause" class="btn btn-secondary" aria-label="Pause Pomodoro timer, preserving remaining time" disabled>
+                        Pause
+                    </button>
+                    <button id="timer-reset" class="btn btn-secondary" aria-label="Reset Pomodoro timer to full duration">
+                        Reset
+                    </button>
+                </div>
+
+                <!-- Timer Duration Configuration -->
+                <form class="timer-config" aria-labelledby="timer-duration-label">
+                    <div class="form-group">
+                        <label for="timer-duration" id="timer-duration-label">Duration (minutes)</label>
+                        <input 
+                            id="timer-duration" 
+                            type="number" 
+                            min="1" 
+                            max="60" 
+                            value="25" 
+                            class="input-field"
+                            aria-describedby="timer-duration-help"
+                            aria-label="Timer duration in minutes, minimum 1, maximum 60"
+                        >
+                        <small id="timer-duration-help">Enter a value between 1 and 60 minutes</small>
+                    </div>
+                    <button id="timer-apply" type="button" class="btn btn-secondary" aria-label="Apply new timer duration">
+                        Apply
+                    </button>
+                </form>
+            </section>
+
+            <!-- ===== TASK LIST SECTION ===== -->
+            <section class="task-section" aria-labelledby="task-heading">
+                <h2 id="task-heading" class="section-title">Tasks</h2>
+
+                <!-- Task Input Form -->
+                <form class="task-input-form" aria-labelledby="task-input-label">
+                    <div class="form-group">
+                        <label for="task-input" id="task-input-label">Add a new task</label>
+                        <input 
+                            id="task-input" 
+                            type="text" 
+                            maxlength="255" 
+                            class="input-field" 
+                            placeholder="Enter a task..."
+                            aria-describedby="task-input-help"
+                            aria-label="New task description input field"
+                        >
+                        <small id="task-input-help">Up to 255 characters</small>
+                    </div>
+                    <button id="task-add" type="button" class="btn btn-primary" aria-label="Add new task to your task list">
+                        Add Task
+                    </button>
+                </form>
+
+                <!-- Error Message Container for Tasks with ARIA Alert -->
+                <div id="task-error" class="error-message" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+                <!-- Task List Container -->
+                <div class="task-list-container" role="region" aria-labelledby="task-heading">
+                    <ul id="task-list" class="task-list" role="list" aria-label="Your tasks">
+                        <!-- Tasks will be rendered here by JavaScript -->
+                    </ul>
+                    <div id="task-empty-state" class="empty-state" role="status">
+                        <p>No tasks yet. Add one to get started!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== QUICK LINKS SECTION ===== -->
+            <section class="links-section" aria-labelledby="links-heading">
+                <h2 id="links-heading" class="section-title">Quick Links</h2>
+
+                <!-- Quick Link Input Form -->
+                <form class="link-input-form" aria-labelledby="link-name-label">
+                    <div class="form-group">
+                        <label for="link-name" id="link-name-label">Link name</label>
+                        <input 
+                            id="link-name" 
+                            type="text" 
+                            maxlength="50" 
+                            class="input-field" 
+                            placeholder="e.g., GitHub"
+                            aria-describedby="link-name-help"
+                            aria-label="Bookmark name, up to 50 characters"
+                        >
+                        <small id="link-name-help">Up to 50 characters</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="link-url" id="link-url-label">Link URL</label>
+                        <input 
+                            id="link-url" 
+                            type="url" 
+                            class="input-field" 
+                            placeholder="https://example.com"
+                            aria-describedby="link-url-help"
+                            aria-label="Bookmark URL, must start with https:// or http://"
+                        >
+                        <small id="link-url-help">Must start with https:// or http://</small>
+                    </div>
+
+                    <button id="link-add" type="button" class="btn btn-primary" aria-label="Add new quick link bookmark">
+                        Add Link
+                    </button>
+                </form>
+
+                <!-- Error Message Container for Links with ARIA Alert -->
+                <div id="link-error" class="error-message" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+                <!-- Quick Links Container -->
+                <div class="link-list-container" role="region" aria-labelledby="links-heading">
+                    <div id="link-list" class="link-list" role="list" aria-label="Your quick link bookmarks">
+                        <!-- Quick links will be rendered here by JavaScript -->
+                    </div>
+                    <div id="link-empty-state" class="empty-state" role="status">
+                        <p>No quick links yet. Add your first bookmark!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
